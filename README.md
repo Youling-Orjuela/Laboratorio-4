@@ -7,7 +7,8 @@ Para llevar a cabo la medición de las señales mioeléctricas, se emplean dos e
 El objetivo de esta práctica es aplicar el filtrado de señales continuas para procesar una señal electromigráfica y detectar la fatiga muscular a través del análisis espectral de la misma.
 
 ## Procedimiento
-Primero se colocaron los electrodos en el músculo a estudiar que en nuestro caso fue el biceps, después se conectaron al sensor de electrocardiograma y este a su vez se conecto al DAQ NI USB6001/6002/6003
+Para realizar la adquisición de señales EMG del bíceps, primero se deben colocar los electrodos de superficie sobre el músculo a analizar, asegurando una buena adherencia con gel conductor para optimizar la captación de la señal y minimizar el ruido. Luego, es fundamental investigar sobre el uso del sistema de adquisición de datos DAQ NI USB6001/6002/6003, lo que incluye la instalación del controlador NI-DAQmx y la API de Python correspondiente. Además, es recomendable revisar la documentación del DAQ y su integración con Python para comprender su funcionamiento y programación. Posteriormente, se conectan los electrodos al amplificador y al sistema DAQ, garantizando una conexión estable y sin interferencias que puedan afectar la calidad de la señal. Finalmente, se selecciona el bíceps como músculo de estudio y se calcula la frecuencia de muestreo adecuada para la captura precisa de la señal EMG, asegurando que sea lo suficientemente alta para registrar los detalles relevantes de la actividad muscular. En este caso, los registros de actividad muscular estuvieron basados en una serie de 10 contracciones musculares, con el fin de evidenciar un proceso de fatiga muscular.
+
 ## Configuración inicial
 En esta parte se prepara el codigo para la captura de la señal a traves del DAQ. Se configura la frecuencia de muestreo, la duracion de la señal y el archivo de salida deseado.
 ```matlab
