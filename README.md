@@ -1,6 +1,6 @@
 # Laboratorio-4 FATIGA MUSCULAR
 ## Configuración inicial
-### En esta parte se prepara el codigo para la captura de la señal a traves del DAQ. Se configura la frecuencia de muestreo, la duracion de la señal y el archivo de salida deseado.
+En esta parte se prepara el codigo para la captura de la señal a traves del DAQ. Se configura la frecuencia de muestreo, la duracion de la señal y el archivo de salida deseado.
 ```matlab
 % ======= CONFIGURACIÓN =======
 device = 'Dev3';     % Nombre de tu DAQ
@@ -29,7 +29,7 @@ ylim([-1, 5]);  % Ajuste de voltaje según rango esperado
 grid on;
 ```
 ## Adquisición y guardado
-### En esta parte previa de la adquisicion de la señal, se realiza una etapa de guardado de datos por vectores en un archivo.csv
+En esta parte previa de la adquisicion de la señal, se realiza una etapa de guardado de datos por vectores en un archivo.csv
 ```matlab
 % ======= ADQUISICIÓN Y GUARDADO =======
 disp('Iniciando adquisición...');
@@ -50,7 +50,7 @@ while seconds(datetime('now') - startTime) < duration
 end
 ```
 ## Filtrado de la señal
-### En esta etapa de codigo se filtra la señal capturada, teniendo como banda de trabajo desde los 20 Hz hasta los 450 Hz.
+En esta etapa de codigo se filtra la señal capturada, teniendo como banda de trabajo desde los 20 Hz hasta los 450 Hz.
 ```matlab
 % ======= FILTRADO DE SEÑAL =======
 disp('Aplicando filtros...');
@@ -68,7 +68,7 @@ filteredSignal = filtfilt(bHigh, aHigh, signalVec);
 filteredSignal = filtfilt(bLow, aLow, filteredSignal);
 ```
 ## Guardar datos
-### Como etapa final del codigo en MATLAB, se realiza el guardado de los datos ya filtrados en el archivo de salida
+Como etapa final del codigo en MATLAB, se realiza el guardado de los datos ya filtrados en el archivo de salida
 ```matlab
 % ======= GUARDAR LOS DATOS FILTRADOS =======
 disp('Adquisición finalizada. Guardando archivo...');
