@@ -104,38 +104,31 @@ import matplotlib.pyplot as plt
 from scipy.signal import hilbert
 from scipy.stats import t
 ```
-numpy (np) Se usa para las operaciones matemáticas avanzadas y el manejo de matrices; pandas (pd) es usado para manipular y analizar datos tabulares; matplotlib.pyplot (plt) ayuda a generar gráficos para visualizar las señales EMG; scipy.signal.hilbert lo usamos para aplicar la Transformada de Hilbert y extraer la envolvente de la señal EMG; Por último scipy.stats.t calcula valores críticos del estadístico t y permite realizar la prueba de hipótesis.
+numpy (np): Se utiliza para realizar operaciones matemáticas avanzadas y manejo de matrices.
+pandas (pd): Sirve para manipular y analizar datos tabulares.
+matplotlib.pyplot (plt): Permite generar gráficos para visualizar las señales EMG.
+scipy.signal.hilbert: Usada para aplicar la Transformada de Hilbert y extraer la envolvente de la señal EMG.
+scipy.stats.t: Calcula valores críticos del estadístico t y permite realizar la prueba de hipótesis.
 
 
-## Cargar datos donde se guardo la señal
+## Cargar archivo CSV
 ```python
-# ======= CARGAR DATOS =======
-archivo = "emg_signal_filtered.csv"  # Nombre del archivo CSV
-datos = pd.read_csv(archivo)  # Leer archivo CSV
-archivo2= "emg_signal_filtered1.csv"  
-datos2 = pd.read_csv(archivo)
+archivo2 = "emg_signal_filtered1.csv"
+datos2 = pd.read_csv(archivo2)
 ```
+archivo2: Especifica el nombre del archivo CSV que contiene la señal EMG filtrada.
+pd.read_csv(archivo2): Carga los datos desde el archivo CSV en un DataFrame de pandas, que permite manipular columnas fácilmente.
 ## Establecer ejes
 ```python
 # Extraer columnas
-tiempo = datos["Tiempo (s)"]
-voltaje = datos["Voltaje Filtrado (V)"]
-
 tiempo2 = datos2["Tiempo (s)"]
 voltaje2 = datos2["Voltaje Filtrado (V)"]
 ```
+Tiempo (s): Representa el eje temporal de la señal EMG.
+Voltaje Filtrado (V): Contiene los valores de la señal EMG filtrada en función del tiempo.
 ## Graficar la señal
 ```python
 # ======= GRAFICAR SEÑAL =======
-plt.figure(figsize=(10, 5))
-plt.plot(tiempo, voltaje, label="Señal EMG Filtrada", color='b')
-plt.xlabel("Tiempo (s)")
-plt.ylabel("Voltaje (V)")
-plt.title("Señal EMG Filtrada")
-plt.legend()
-plt.grid()
-plt.show()
-
 plt.figure(figsize=(10, 5))
 plt.plot(tiempo2, voltaje2, label="Señal EMG Filtrada", color='b')
 plt.xlabel("Tiempo (s)")
@@ -144,6 +137,91 @@ plt.title("Señal EMG Filtrada")
 plt.legend()
 plt.grid()
 plt.show()
+```
+##Transformada de Hilbert y Envolvente de la Señal
+```python
+voltaje2 = np.array(voltaje2).flatten()
+analytic_signal = hilbert(voltaje2)
+envelope = np.abs(analytic_signal)
+```
+Transformada de Hilbert: Se aplica a la señal EMG filtrada para obtener la señal analítica, que incluye información de fase y amplitud.
+Envolvente: La envolvente se calcula tomando el valor absoluto de la señal analítica. Esto nos permite extraer el "contorno" de la señal EMG, que es útil para detectar patrones y analizar la actividad muscular.
+##Aplicar una Ventana de Hanning y Suavizar la Envolvente
+```python
+window_size = 200  
+hanning_window = np.hanning(window_size)
+envelope_smoothed = np.convolve(envelope, hanning_window, mode='same') / sum(hanning_window)
+```
+Ventana de Hanning: Se crea una ventana de Hanning de tamaño 200. Esta ventana suaviza la envolvente de la señal, reduciendo el ruido.
+Suavizado de la Envolvente: La convolución entre la envolvente y la ventana de Hanning suaviza la señal resultante, reduciendo fluctuaciones bruscas.
+##Graficar la Envolvente Original y Suavizada
+```python
+plt.figure(figsize=(10, 5))
+plt.plot(tiempo2, envelope, label="Envolvente EMG (Original)", alpha=0.5)
+plt.plot(tiempo2, envelope_smoothed[:len(tiempo2)], label="Envolvente con Hanning", color="orange", linewidth=2)
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud")
+plt.title("Envolvente Suavizada con Ventana de Hanning")
+plt.legend()
+plt.grid()
+plt.show()
+
+```
+##Extraer y Graficar la Primera y Última Ventana
+```python
+# ======= Extraer Primera y Última Ventana de Hanning =======
+first_window = envelope[:window_size] * hanning_window
+last_window = envelope[-window_size:] * hanning_window
+first_window /= np.max(first_window)
+last_window /= np.max(last_window)
+
+# Mostrar ventanas seleccionadas
+plt.figure(figsize=(12, 5))
+plt.subplot(1, 2, 1)
+plt.plot(tiempo2[:window_size], first_window, label="Primera Ventana de Hanning", color="blue")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud Normalizada")
+plt.title("Primera Ventana de Hanning")
+plt.legend()
+plt.grid()
+
+plt.subplot(1, 2, 2)
+plt.plot(tiempo2.iloc[-window_size:], last_window, label="Última Ventana de Hanning", color="red")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud Normalizada")
+plt.title("Última Ventana de Hanning")
+plt.legend()
+plt.grid()
+plt.tight_layout()
+plt.show()
+```
+Primera y Última Ventana: Se seleccionan las primeras y últimas ventanas de 200 puntos de la envolvente y se aplican las ventanas de Hanning correspondientes.
+##Calcular Frecuencia Mediana
+```python
+def calcular_frecuencia_mediana(ventana, sampling_rate=1000):
+    fft_vals = np.abs(np.fft.fft(ventana))
+    fft_freqs = np.fft.fftfreq(len(ventana), 1 / sampling_rate)
+    positive_freqs = fft_freqs[fft_freqs > 0]
+    positive_fft_vals = fft_vals[fft_freqs > 0]
+    cumulative_sum = np.cumsum(positive_fft_vals)
+    median_freq_index = np.searchsorted(cumulative_sum, cumulative_sum[-1] / 2)
+    return positive_freqs[median_freq_index]
+```
+Esta función calcula la frecuencia mediana de la señal usando la Transformada Rápida de Fourier (FFT). La frecuencia mediana es la frecuencia que divide la energía de la señal en dos partes iguales.
+##Calcular Varianza y Estadístico t para Prueba de Hipótesis
+```python
+var_first = np.var(first_window, ddof=1)
+var_last = np.var(last_window, ddof=1)
+n1, n2 = len(first_window), len(last_window)
+t_calculado = (freq_mediana_first - freq_mediana_last) / np.sqrt((var_first / n1) + (var_last / n2))
+
+```
+##Conclusión del Test de Hipótesis
+```python
+if abs(t_calculado) > t_critico:
+    print("\nConclusión: Se rechaza la hipótesis nula (H₀). Hay una diferencia significativa.")
+else:
+    print("\nConclusión: No se rechaza la hipótesis nula (H₀). No hay evidencia significativa de fatiga muscular.")
 ```
 ## Referencias
 [1] “Electromiografía - Mayo Clinic.” https://www.mayoclinic.org/es/tests-procedures/emg/about/pac-20393913
