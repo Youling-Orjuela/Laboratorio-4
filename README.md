@@ -1,4 +1,8 @@
 # Laboratorio-4 FATIGA MUSCULAR
+## Introducción
+El electromiograma (EMG) es una técnica utilizada para registrar la actividad eléctrica de los músculos, conocida también como actividad mioeléctrica. Este proceso es esencial para el diagnóstico de diversas condiciones musculares y neuromusculares. Existen dos tipos principales de EMG: el de superficie y el intramuscular o de aguja, cada uno con sus aplicaciones específicas [1].
+
+Para llevar a cabo la medición de las señales mioeléctricas, se emplean dos electrodos activos y un electrodo de tierra. En el caso de los electrodos de superficie, estos deben colocarse en la piel, directamente sobre el músculo que se desea estudiar. El electrodo de tierra, por otro lado, se conecta a una zona del cuerpo que esté eléctricamente activa, funcionando como referencia. La señal registrada por el EMG se obtiene al medir la diferencia de potencial entre las señales de los electrodos activos, lo que permite analizar la actividad eléctrica del músculo en cuestión [2].
 ## Configuración inicial
 En esta parte se prepara el codigo para la captura de la señal a traves del DAQ. Se configura la frecuencia de muestreo, la duracion de la señal y el archivo de salida deseado.
 ```matlab
