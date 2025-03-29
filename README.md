@@ -143,7 +143,7 @@ plt.show()
 ```
 [![emgfil.jpg](https://i.postimg.cc/sxPRjKQj/emgfil.jpg)](https://postimg.cc/MfGLt7mN)
 
-##Transformada de Hilbert y Envolvente de la Señal
+## Transformada de Hilbert y Envolvente de la Señal
 
 ```python
 voltaje2 = np.array(voltaje2).flatten()
@@ -153,7 +153,7 @@ envelope = np.abs(analytic_signal)
 Transformada de Hilbert: Se aplica a la señal EMG filtrada para obtener la señal analítica, que incluye información de fase y amplitud.
 Envolvente: La envolvente se calcula tomando el valor absoluto de la señal analítica. Esto nos permite extraer el "contorno" de la señal EMG, que es útil para detectar patrones y analizar la actividad muscular.
 
-##Aplicar una Ventana de Hanning y Suavizar la Envolvente
+## Aplicar una Ventana de Hanning y Suavizar la Envolvente
 
 ```python
 window_size = 200  
@@ -178,7 +178,7 @@ plt.show()
 
 ```
 [![nvol.jpg](https://i.postimg.cc/bJb7gLRx/nvol.jpg)](https://postimg.cc/8JpXPR9c)
-##Extraer y Graficar la Primera y Última Ventana
+## Extraer y Graficar la Primera y Última Ventana
 
 ```python
 # ======= Extraer Primera y Última Ventana de Hanning =======
@@ -210,7 +210,7 @@ plt.show()
 [![ventana.jpg](https://i.postimg.cc/X7xTsr9z/ventana.jpg)](https://postimg.cc/CzBP1LPG)
 Primera y Última Ventana: Se seleccionan las primeras y últimas ventanas de 200 puntos de la envolvente y se aplican las ventanas de Hanning correspondientes.
 
-##Calcular Frecuencia Mediana
+## Calcular Frecuencia Mediana
 
 ```python
 def calcular_frecuencia_mediana(ventana, sampling_rate=1000):
@@ -224,7 +224,7 @@ def calcular_frecuencia_mediana(ventana, sampling_rate=1000):
 ```
 Esta función calcula la frecuencia mediana de la señal usando la Transformada Rápida de Fourier (FFT). La frecuencia mediana es la frecuencia que divide la energía de la señal en dos partes iguales.
 
-##Calcular Varianza y Estadístico t para Prueba de Hipótesis
+## Calcular Varianza y Estadístico t para Prueba de Hipótesis
 
 ```python
 var_first = np.var(first_window, ddof=1)
@@ -233,7 +233,7 @@ n1, n2 = len(first_window), len(last_window)
 t_calculado = (freq_mediana_first - freq_mediana_last) / np.sqrt((var_first / n1) + (var_last / n2))
 
 ```
-##Calcular grados de libertad{
+## Calcular grados de libertad{
 
 ```python
 df = ((var_first / n1) + (var_last / n2))**2 / (((var_first / n1)**2 / (n1 - 1)) + ((var_last / n2)**2 / (n2 - 1)))
@@ -241,7 +241,7 @@ t_critico = t.ppf(0.975, df)
 
 ```
 
-##Conclusión del Test de Hipótesis
+## Conclusión del Test de Hipótesis
 
 ```python
 if abs(t_calculado) > t_critico:
@@ -250,7 +250,8 @@ else:
     print("\nConclusión: No se rechaza la hipótesis nula (H₀). No hay evidencia significativa de fatiga muscular.")
 ```
 [![estadistico.jpg](https://i.postimg.cc/nLmSfrQZ/estadistico.jpg)](https://postimg.cc/Y4pz1p3y)
-
+### Conclusiones
+Se puede concluir que de una señal como la de EMG se pueden obtener varios momentos en cierto tiempo, muchas veces hay demasiados datos por lo que el uso de una ventana de tiempo como la Hanning se puede ampliar y apreciar mejor los datos para que no haya perdida de información. Además de eso al comparar la primera ventana con la última se logró por medio de un test de hipotesis determinar si se llego o no a la fatiga, en nuestro caso si se alcanzo la fatiga.
 ## Referencias
 [1] “Electromiografía - Mayo Clinic.” https://www.mayoclinic.org/es/tests-procedures/emg/about/pac-20393913
 [2] H. Tankisi et al., “Standards of instrumentation of EMG,” Clinical Neurophysiology, vol. 131, no. 1, pp. 243–258, Nov. 2019, doi: 10.1016/j.clinph.2019.07.025.
