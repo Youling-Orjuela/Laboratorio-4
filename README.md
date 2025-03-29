@@ -126,7 +126,9 @@ voltaje2 = datos2["Voltaje Filtrado (V)"]
 ```
 Tiempo (s): Representa el eje temporal de la señal EMG.
 Voltaje Filtrado (V): Contiene los valores de la señal EMG filtrada en función del tiempo.
+
 ## Graficar la señal
+
 ```python
 # ======= GRAFICAR SEÑAL =======
 plt.figure(figsize=(10, 5))
@@ -139,6 +141,7 @@ plt.grid()
 plt.show()
 ```
 ##Transformada de Hilbert y Envolvente de la Señal
+
 ```python
 voltaje2 = np.array(voltaje2).flatten()
 analytic_signal = hilbert(voltaje2)
@@ -146,7 +149,9 @@ envelope = np.abs(analytic_signal)
 ```
 Transformada de Hilbert: Se aplica a la señal EMG filtrada para obtener la señal analítica, que incluye información de fase y amplitud.
 Envolvente: La envolvente se calcula tomando el valor absoluto de la señal analítica. Esto nos permite extraer el "contorno" de la señal EMG, que es útil para detectar patrones y analizar la actividad muscular.
+
 ##Aplicar una Ventana de Hanning y Suavizar la Envolvente
+
 ```python
 window_size = 200  
 hanning_window = np.hanning(window_size)
@@ -154,7 +159,9 @@ envelope_smoothed = np.convolve(envelope, hanning_window, mode='same') / sum(han
 ```
 Ventana de Hanning: Se crea una ventana de Hanning de tamaño 200. Esta ventana suaviza la envolvente de la señal, reduciendo el ruido.
 Suavizado de la Envolvente: La convolución entre la envolvente y la ventana de Hanning suaviza la señal resultante, reduciendo fluctuaciones bruscas.
+
 ##Graficar la Envolvente Original y Suavizada
+
 ```python
 plt.figure(figsize=(10, 5))
 plt.plot(tiempo2, envelope, label="Envolvente EMG (Original)", alpha=0.5)
@@ -168,6 +175,7 @@ plt.show()
 
 ```
 ##Extraer y Graficar la Primera y Última Ventana
+
 ```python
 # ======= Extraer Primera y Última Ventana de Hanning =======
 first_window = envelope[:window_size] * hanning_window
