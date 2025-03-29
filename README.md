@@ -99,11 +99,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import hilbert
 from scipy.stats import t
 ```
-numpy (np): Se utiliza para realizar operaciones matemáticas avanzadas y manejo de matrices.
-pandas (pd): Sirve para manipular y analizar datos tabulares.
-matplotlib.pyplot (plt): Permite generar gráficos para visualizar las señales EMG.
-scipy.signal.hilbert: Usada para aplicar la Transformada de Hilbert y extraer la envolvente de la señal EMG.
-scipy.stats.t: Calcula valores críticos del estadístico t y permite realizar la prueba de hipótesis.
+numpy (np) Se usa para las operaciones matemáticas avanzadas y el manejo de matrices; pandas (pd) es usado para manipular y analizar datos tabulares; matplotlib.pyplot (plt) ayuda a generar gráficos para visualizar las señales EMG; scipy.signal.hilbert lo usamos para aplicar la Transformada de Hilbert y extraer la envolvente de la señal EMG; Por último scipy.stats.t calcula valores críticos del estadístico t y permite realizar la prueba de hipótesis.
 
 
 ## Cargar datos donde se guardo la señal
