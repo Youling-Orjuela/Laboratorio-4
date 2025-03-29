@@ -140,6 +140,8 @@ plt.legend()
 plt.grid()
 plt.show()
 ```
+[![emgfil.jpg](https://i.postimg.cc/sxPRjKQj/emgfil.jpg)](https://postimg.cc/MfGLt7mN)
+
 ##Transformada de Hilbert y Envolvente de la Señal
 
 ```python
@@ -174,6 +176,7 @@ plt.grid()
 plt.show()
 
 ```
+[![nvol.jpg](https://i.postimg.cc/bJb7gLRx/nvol.jpg)](https://postimg.cc/8JpXPR9c)
 ##Extraer y Graficar la Primera y Última Ventana
 
 ```python
@@ -203,6 +206,7 @@ plt.grid()
 plt.tight_layout()
 plt.show()
 ```
+[![ventana.jpg](https://i.postimg.cc/X7xTsr9z/ventana.jpg)](https://postimg.cc/CzBP1LPG)
 Primera y Última Ventana: Se seleccionan las primeras y últimas ventanas de 200 puntos de la envolvente y se aplican las ventanas de Hanning correspondientes.
 
 ##Calcular Frecuencia Mediana
@@ -244,6 +248,8 @@ if abs(t_calculado) > t_critico:
 else:
     print("\nConclusión: No se rechaza la hipótesis nula (H₀). No hay evidencia significativa de fatiga muscular.")
 ```
+[![estadistico.jpg](https://i.postimg.cc/nLmSfrQZ/estadistico.jpg)](https://postimg.cc/Y4pz1p3y)
+
 ## Referencias
 [1] “Electromiografía - Mayo Clinic.” https://www.mayoclinic.org/es/tests-procedures/emg/about/pac-20393913
 [2] H. Tankisi et al., “Standards of instrumentation of EMG,” Clinical Neurophysiology, vol. 131, no. 1, pp. 243–258, Nov. 2019, doi: 10.1016/j.clinph.2019.07.025.
