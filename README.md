@@ -144,3 +144,6 @@ plt.legend()
 plt.grid()
 plt.show()
 ```
+## Referencias
+[1] “Electromiografía - Mayo Clinic.” https://www.mayoclinic.org/es/tests-procedures/emg/about/pac-20393913
+[2] H. Tankisi et al., “Standards of instrumentation of EMG,” Clinical Neurophysiology, vol. 131, no. 1, pp. 243–258, Nov. 2019, doi: 10.1016/j.clinph.2019.07.025.
