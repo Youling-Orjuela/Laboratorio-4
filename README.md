@@ -196,7 +196,9 @@ plt.tight_layout()
 plt.show()
 ```
 Primera y Última Ventana: Se seleccionan las primeras y últimas ventanas de 200 puntos de la envolvente y se aplican las ventanas de Hanning correspondientes.
+
 ##Calcular Frecuencia Mediana
+
 ```python
 def calcular_frecuencia_mediana(ventana, sampling_rate=1000):
     fft_vals = np.abs(np.fft.fft(ventana))
@@ -208,7 +210,9 @@ def calcular_frecuencia_mediana(ventana, sampling_rate=1000):
     return positive_freqs[median_freq_index]
 ```
 Esta función calcula la frecuencia mediana de la señal usando la Transformada Rápida de Fourier (FFT). La frecuencia mediana es la frecuencia que divide la energía de la señal en dos partes iguales.
+
 ##Calcular Varianza y Estadístico t para Prueba de Hipótesis
+
 ```python
 var_first = np.var(first_window, ddof=1)
 var_last = np.var(last_window, ddof=1)
@@ -216,7 +220,16 @@ n1, n2 = len(first_window), len(last_window)
 t_calculado = (freq_mediana_first - freq_mediana_last) / np.sqrt((var_first / n1) + (var_last / n2))
 
 ```
+##Calcular grados de libertad{
+
+```python
+df = ((var_first / n1) + (var_last / n2))**2 / (((var_first / n1)**2 / (n1 - 1)) + ((var_last / n2)**2 / (n2 - 1)))
+t_critico = t.ppf(0.975, df)
+
+```
+
 ##Conclusión del Test de Hipótesis
+
 ```python
 if abs(t_calculado) > t_critico:
     print("\nConclusión: Se rechaza la hipótesis nula (H₀). Hay una diferencia significativa.")
